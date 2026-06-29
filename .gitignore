@@ -1,0 +1,19 @@
+# Environments
+.env
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+db.sqlite3
+
+# Uploads and Outputs
+media/
+staticfiles/
+
+# Logs
+logs/*.log

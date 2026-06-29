@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Workspace Dashboard - Collage Extractor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dropzone-area {
+        border: 2px dashed #4f46e5;
+        border-radius: 12px;
+        background-color: rgba(79, 70, 229, 0.03);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+    .dropzone-area:hover, .dropzone-area.dragover {
+        background-color: rgba(79, 70, 229, 0.08);
+        border-color: #818cf8;
+    }
+    .canvas-container {
+        position: relative;
+        overflow: auto;
+        max-height: 650px;
+        border-radius: 8px;
+        background: #0b0c10;
+    }
+    #visualizationCanvas {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+    .chat-terminal {
+        height: 480px;
+        overflow-y: auto;
+        background-color: #0f111a;
+        border: 1px solid #2d3142;
+        border-radius: 8px;
+    }
+    .chat-bubble {
+        max-width: 85%;
+        border-radius: 12px;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+    }
+    .chat-bubble.user {
+        background-color: #4f46e5;
+        color: white;
+        margin-left: auto;
+    }
+    .chat-bubble.system {
+        background-color: #232736;
+        color: #e5e7eb;
+        margin-right: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-xl-7 col-lg-12">
+        <div class="card card-custom p-4 h-100">
+            <h5 class="card-title mb-3 fw-bold text-white">
+                Source Image Canvas Analysis
+            </h5>
+
+            <div id="uploadStageContainer">
+                <div id="dropzone" class="dropzone-area p-5 text-center my-4">
+                    <div class="py-4">
+                        <span class="fs-1 d-block mb-2">📁</span>
+                        <h6 class="fw-bold text-white">Drag and drop your AI image collage here</h6>
+                        <p class="text-muted-custom small">Supports PNG, JPG, JPEG, WEBP up to 20MB</p>
+                        <input type="file" id="fileInput" class="d-none" accept="image/*">
+                        <button class="btn btn-primary btn-sm px-4 mt-2" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                    </div>
+                </div>
+
+                <div class="progress d-none mb-3" id="uploadProgressBarContainer" style="height: 8px;">
+                    <div id="uploadProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="analysisStageContainer" class="d-none text-center py-5">
+                <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+                <h5 class="fw-bold">Executing Computer Vision Segmentation...</h5>
+                <p class="text-muted-custom small">Isolating sub-panels and extracting metadata text via EasyOCR models (CPU Mode).</p>
+            </div>
+
+            <div id="canvasStageContainer" class="d-none">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted-custom small" id="detectedCountLabel">0 Panels Isolated</span>
+                    <button class="btn btn-outline-danger btn-sm px-3" id="resetSessionBtn">Clear Session</button>
+                </div>
+                <div class="canvas-container border">
+                    <canvas id="visualizationCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-5 col-lg-12">
+        <div class="card card-custom p-4 h-100 d-flex flex-column">
+            <h5 class="card-title mb-3 fw-bold">AI Processing Command Console</h5>
+
+            <div class="chat-terminal flex-grow-1 p-3 mb-3 d-flex flex-column" id="chatTerminal">
+                <div class="chat-bubble system">
+                    Hello! Upload a collage on the left workspace canvas. Once processed, you can type extraction instructions here using natural language.
+                    <br><br><small class="text-muted-custom">Example: "Extract image 184, remove all text and upscale 4x"</small>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="chatPromptInput" class="form-control bg-dark border-secondary text-white" placeholder="Type image extraction prompt..." disabled>
+                <button class="btn btn-primary px-4" type="button" id="sendPromptBtn" disabled>
+                    <span id="btnText">Send</span>
+                    <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{% static 'js/app.js' %}"></script>
+{% endblock %}

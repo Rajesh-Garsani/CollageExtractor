@@ -1,0 +1,219 @@
+
+/* ==========================================================================
+   1. CSS Variables & Theming
+   ========================================================================== */
+   :root {
+    /* Color Palette */
+    --bg-dark-workspace: #12141c;
+    --card-dark-surface: #1e2230;
+    --card-border-color: #2d3142;
+
+    --accent-primary: #4f46e5;
+    --accent-primary-hover: #4338ca;
+    --accent-glow: rgba(79, 70, 229, 0.15);
+
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+
+    /* Layout Variables */
+    --border-radius-lg: 12px;
+    --border-radius-md: 8px;
+    --transition-speed: 0.2s;
+}
+
+/* ==========================================================================
+   2. Base Elements & Resets
+   ========================================================================== */
+body {
+    background-color: var(--bg-dark-workspace);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Webkit Scrollbars for a sleek desktop feel */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-dark-workspace);
+}
+::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+}
+
+/* ==========================================================================
+   3. Global Layout Components
+   ========================================================================== */
+.navbar-custom {
+    background-color: var(--card-dark-surface);
+    border-bottom: 1px solid var(--card-border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.card-custom {
+    background-color: var(--card-dark-surface);
+    border: 1px solid var(--card-border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.text-muted-custom {
+    color: var(--text-muted) !important;
+}
+
+/* ==========================================================================
+   4. Drag & Drop Workspace
+   ========================================================================== */
+.dropzone-area {
+    border: 2px dashed var(--accent-primary);
+    border-radius: var(--border-radius-lg);
+    background-color: rgba(79, 70, 229, 0.03);
+    transition: all var(--transition-speed) ease-in-out;
+    cursor: pointer;
+}
+
+.dropzone-area:hover,
+.dropzone-area.dragover {
+    background-color: var(--accent-glow);
+    border-color: #818cf8;
+    transform: translateY(-2px);
+}
+
+/* Pulse animation for the AI Analyzing state */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+    70% { box-shadow: 0 0 0 15px rgba(79, 70, 229, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+
+.analyzing-indicator {
+    animation: pulse-glow 2s infinite;
+    border-radius: 50%;
+}
+
+/* ==========================================================================
+   5. Vision Canvas Engine
+   ========================================================================== */
+.canvas-container {
+    position: relative;
+    overflow: auto;
+    max-height: 650px;
+    border-radius: var(--border-radius-md);
+    background: #0b0c10;
+    border: 1px solid var(--card-border-color);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+#visualizationCanvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    /* Prevents the canvas from looking blurry on high-DPI displays */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* ==========================================================================
+   6. Natural Language Chat Terminal
+   ========================================================================== */
+.chat-terminal {
+    height: 480px;
+    overflow-y: auto;
+    background-color: #0f111a;
+    border: 1px solid var(--card-border-color);
+    border-radius: var(--border-radius-md);
+    scroll-behavior: smooth;
+}
+
+.chat-bubble {
+    max-width: 85%;
+    border-radius: var(--border-radius-lg);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* User Message Alignment */
+.chat-bubble.user {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+/* System/AI Message Alignment */
+.chat-bubble.system {
+    background-color: #232736;
+    color: #e5e7eb;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #374151;
+}
+
+/* Input Form Controls */
+.chat-input-group {
+    background-color: #0f111a;
+    border: 1px solid var(--card-border-color);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+.chat-input-group input:focus {
+    background-color: #1a1d27;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+
+
+/* ==========================================================================
+   7. Pro UI Refinements (Chat & Images)
+   ========================================================================== */
+
+.chat-input-group {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border: 1px solid var(--card-border-color);
+}
+
+.chat-input-group input:focus {
+    background-color: #1a1d27;
+    box-shadow: inset 0 0 0 1px var(--accent-primary);
+}
+
+.chat-bubble.system h6 {
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.extracted-image-wrapper {
+    background: repeating-conic-gradient(#1e2230 0% 25%, #12141c 0% 50%) 50% / 20px 20px;
+    border: 1px solid var(--card-border-color);
+}
+
+.chat-bubble.system-loading {
+    background-color: transparent !important;
+    border: none !important;
+    color: var(--text-muted);
+    font-style: italic;
+    box-shadow: none;
+    padding-top: 0;
+}
+
+/* Make sure the canvas fits cleanly inside its container */
+#visualizationCanvas {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+}
